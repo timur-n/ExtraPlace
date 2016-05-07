@@ -1,0 +1,271 @@
+table {
+    border-bottom: 1px solid grey;
+}
+table table {
+    border: none;
+}
+td, th {
+    border: 1px solid transparent;
+    padding: 1px 2px;
+}
+.events {
+    border-collapse: separate;
+}
+.runner-list td {
+    border-bottom: 1px solid grey;
+}
+.extra-place-runners {
+    clear: both;
+}
+table div.dropdown {
+    display: inline-block;
+}
+
+
+.event-name {
+    max-width: 80%;
+}
+/*
+.event-options input {
+    width: 50px;
+}
+*/
+.selected {
+    background-color: #add8e6;
+}
+.market-list {
+    list-style-type: none;
+    padding: 0 5px;
+}
+.market-list li {
+    display: inline-block;
+}
+a[ng-click] {
+    cursor: pointer;
+}
+.red {
+    background-color: lightcoral;
+}
+.green {
+    background-color: lightgreen;
+}
+.yellow {
+    background-color: beige;
+}
+.bookie-options, .runner-options {
+    padding: 5px;
+}
+.bookie-options input[type=number] {
+    width: 50px;
+}
+.bookie-processors {
+    list-style: none;
+    white-space: nowrap;
+    margin-bottom: 5px;
+    padding: 0;
+}
+.bookie-processors li {
+    display: inline-block;
+    padding: 5px 0;
+    margin-right: 10px;
+}
+.back-odds {
+    background-color: #c9edf7;
+}
+.lay-odds {
+    background-color: #f4cccc;
+}
+.subtle .lay-odds-readonly {
+    color: darkgrey;
+}
+.back-odds.locked,
+.lay-odds.locked {
+    background-color: #ebebeb;
+}
+sub, span.place {
+    margin-left: 5px;
+    color: gray;
+}
+span.place.back-odds {
+    display: block;
+}
+span.place {
+    font-size: 0.9em;
+}
+sub.lay-odds {
+    font-size: 0.9em;
+}
+label, input[type=checkbox] {
+    vertical-align: middle;
+    margin: 0;
+}
+.events-container, .markets-container {
+    float: left;
+}
+.markets-container {
+    margin-left: 20px;
+}
+.events td {
+    /*opacity: 0.7;*/
+    text-align: center;
+}
+.events td.selected {
+    /*outline: 2px solid gray;*/
+    /*opacity: 1;*/
+    font-weight: bold;
+    border: 1px solid gray;
+}
+th {
+    background-color: #cdcdcd;
+}
+.number-std, #locked-back-odds {
+    width: 60px;
+}
+.lowsize, .out-of-range {
+    text-decoration: line-through;
+    color: #c0c0c0;
+}
+.out-of-range {
+    color: lightpink;
+}
+label, table .fa {
+    font-weight: normal;
+    color: #737373;
+}
+input[type=text], input[type=number] {
+    border-radius: 3px;
+    border: 1px solid #c0c0c0;
+    padding: 0 2px;
+}
+.badge {
+    color: #737373;
+}
+.lay-info .badge {
+    color: black;
+}
+.processor-info {
+    margin: 10px 0;
+}
+.liability {
+    background-color: #ebebeb;
+}
+.direct {
+    border-bottom: 1px solid red;
+}
+.bookie-header {
+    min-width: 40px;
+    text-align: center;
+}
+.bookie {
+    background-image: url('./allbookie_90.gif');
+    background-repeat: no-repeat;
+    width: 17px;
+    height: 54px;
+    display: inline-block;
+}
+.bookie.B365 {
+    background-position: -323px 0;
+}
+.bookie.Sky {
+    background-position: -68px 0;
+}
+.bookie.BFSB {
+    background-position: -272px 0;
+}
+.bookie.BVic {
+    background-position: -34px 0;
+}
+.bookie.Paddy {
+    background-position: -119px 0;
+}
+.bookie.Coral {
+    background-position: -204px 0;
+}
+.bookie.WH {
+    background-position: 0 0;
+}
+.bookie.Boyle {
+    background-position: -221px 0;
+}
+.bookie.Lads {
+    background-position: -153px 0;
+}
+.bookie.Bfr {
+    background-position: -170px 0;
+}
+.bookie.Winner {
+    background-position: -476px 0;
+}
+.betfair-ids {
+    width: 500px;
+    height: 50px;
+    font-size: 10px;
+    white-space: nowrap;
+}
+.subtle, .subtle a {
+    color: lightgray;
+}
+.lay-info h3 span {
+    padding: 0 10px;
+}
+.lay-comm {
+    background-color: #ffb80c;
+}
+.lay-comm.smarkets {
+    background-color: #00b073;
+    color: white;
+}
+.lay-comm:after {
+    content: "Betfair";
+}
+.lay-comm.smarkets:after {
+    content: "Smarkets";
+}
+.main-toolbar {
+    margin-bottom: 5px;
+}
+.extra-place-runners input[type=number] {
+    width: 40px;
+}
+tr.ew-terms {
+    background-color: #cdcdcd;
+}
+.extra-place-runners td,
+.extra-place-runners th {
+    border: 1px solid silver;
+}
+.extra-place-runners td.ew-terms,
+.extra-place-runners td.price {
+    text-align: center;
+}
+.extra-place-runners .lay-odds span {
+    min-width: 30px;
+    display: inline-block;
+}
+.extra-place-runners .liability {
+    font-size: smaller;
+}
+.extra-place-runners .subtle .green,
+.extra-place-runners .subtle .yellow {
+    background-color: inherit;
+}
+
+.ew-terms p {
+    margin: 0;
+    padding: 0;
+    line-height: 14px;
+    font-size: 12px;
+}
+.back-odds-readonly {
+    min-width: 30px;
+    display: inline-block;
+}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+.profit, .bold {
+    font-weight: bold;
+    color: black;
+}
