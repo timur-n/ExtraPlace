@@ -9,15 +9,14 @@ module.exports = function(config) {
         files: [
             'extension/src/dashboard/angular.js',
             'extension/src/dashboard/processors.js',
-            'extension/src/dashboard/app.js',
+            'extension/src/dashboard/app2.js',
             'extension/src/dashboard/betfair-api.js',
             'test/angular-mocks.js',
             'extension/src/inject/oddschecker/horse.js',
             'extension/src/inject/inject-lib.js',
             'extension/src/inject/jquery-2.1.1.min.js',
 
-            'test/app-spec.js',
-            'test/scrapers-spec.js'
+            'test/app-spec.js'
         ],
 
         // list of files to exclude

@@ -12,9 +12,9 @@
     <script type="text/javascript" src="processors.js"></script>
     <script type="text/javascript" src="storage.js"></script>
     <script type="text/javascript" src="utils.js"></script>
-    <script type="text/javascript" src="app.js"></script>
+    <script type="text/javascript" src="app2.js"></script>
 </head>
-<body ng-app="BBApp">
+<body ng-app="ExtraPlaceApp">
 <div id="main-div" ng-controller="MainCtrl">
     <div class="main-toolbar">
         <button class="btn btn-xs" ng-click="resetStorage();">Reset storage</button>
@@ -22,60 +22,7 @@
         <input type="checkbox" id="isLogOn" ng-model="isLogOn">
         <label for="isLogOn">Log</label>
     </div>
-    <div class="events-container">
-        <table class="events">
-            <thead>
-                <tr>
-                    <th>Event</th>
-                    <th ng-repeat="knownBookie in knownBookies" class="bookie-header">
-                        <div class="bookie {{knownBookie.short}}"></div>
-                    </th>
-                    <th>Betfair</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="event in events track by $index">
-                    <td class="event-name" ng-class="{selected: event.selected}"><a ng-click="selectExtraPlaceEvent(event)">{{event.name || event.url}}</a></td>
-                    <td ng-repeat="bookie in event.bookies" ng-class="{selected: bookie.selected, green: bookie.summary.isProfit, yellow: bookie.summary.isOk, direct: bookie.isDirect}">
-                        <a class="summary"
-                           ng-click="selectBookie(event, bookie)">
-                            {{bookie.summary.text}} <i ng-show="bookie.marked" class="fa fa-star"></i>
-                        </a>
-                    </td>
-                    <td class="event-options">
-                        <span class="badge" ng-class="{green: event.betfairOk, yellow: !event.betfairOk}">{{event.betfairCount}}</span>
-                        <div class="dropdown">
-                            <button data-toggle="dropdown" class="btn btn-xs"><i class="fa fa-pencil"></i></button>
-                            <ul class="dropdown-menu">
-                                <li><textarea class="betfair-ids" ng-model="event.betfair"></textarea></li>
-                            </ul>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="bookie-options" ng-show="!!selectedBookie">
-            <label for="back-stake">Back stake</label>
-            <input id="back-stake" type="number" ng-model="selectedBookie.backStake" maxlength="3">
-            <label for="lay-comm">Lay comm (%)</label>
-            <input id="lay-comm" type="number" ng-model="selectedBookie.layCommission" maxlength="3">
-            <label for="min-odds">Min odds</label>
-            <input id="min-odds" type="number" ng-model="selectedBookie.minOdds" maxlength="3">
-            <label for="max-odds">Max odds</label>
-            <input id="max-odds" type="number" ng-model="selectedBookie.maxOdds" maxlength="3">
-            <ul class="bookie-processors">
-                <li ng-repeat="processor in selectedBookie.processors track by $index">
-                    <label for="{{processor.id + $index}}">{{processor.name}}</label>
-                    <input id="{{processor.id + $index}}" type="checkbox" ng-model="processor.enabled">
-                </li>
-            </ul>
-            <span class="ew-terms" ng-show="selectedBookie.ew">EW: 1/{{selectedBookie.ew.fraction}} ({{selectedBookie.ew.places}} places)</span>
-            <label for="marked">Star</label>
-            <input id="marked" type="checkbox" ng-model="selectedBookie.marked">
-            <!--<span>{{selectedBookie.bestResults}}</span>-->
-        </div>
-    </div>
-    <div class="extra-place-runners" ng-show="extraPlaceEvent">
+    <div class="extra-place-runners">
         <a ng-click="selectExtraPlaceEvent(false)">Close</a>
         <span class="bold">{{extraPlaceEvent && extraPlaceEvent.name}} </span>
         <span>Runners: {{extraPlaceEvent && extraPlaceEvent.runners.length}}</span>
@@ -161,76 +108,6 @@
                 </td>
             </tr>
         </table>
-    </div>
-    <div class="markets-container" ng-show="!extraPlaceEvent">
-        <table class="runner-list">
-            <tr>
-                <th>Name</th>
-                <th ng-if="selectedBookie && selectedBookie.markets.length > 1">Market</th>
-                <th>Back odds</th>
-                <th>Lay odds</th>
-                <th ng-repeat="processor in selectedBookie.processors track by $index" ng-show="processor.enabled">
-                    {{processor.name}}
-                </th>
-            </tr>
-            <tbody ng-repeat="market in selectedBookie.markets track by $index">
-                <tr ng-repeat="runner in market.runners track by $index">
-                    <td class="event-name" ng-class="{selected: runner.selected}"><a ng-click="selectRunner(runner)">{{runner.name}}</a></td>
-                    <td ng-if="selectedBookie && selectedBookie.markets.length > 1">{{market.name}}</td>
-                    <td class="back-odds">
-                        {{runner.backOdds}}
-                        <a ng-show="runner.locked" title="Locked, click to unlock" ng-click="lockRunnerPrice(runner, false)"><i class="fa fa-lock"></i></a>
-                        <span ng-show="runner.place" class="place back-odds">{{runner.place.backOdds}}</span>
-                    </td>
-                    <td class="lay-odds">
-                        <div class="main-odds">
-                            <span>{{runner.layOdds}}</span>
-                            <sub class="lay-size">{{runner.lay.bf.size | number:0}}</sub>
-                        </div>
-                        <div class="place-odds" ng-show="runner.place ">
-                            <span ng-show="runner.place" class="place lay-odds">{{runner.place.layOdds}}</span>
-                            <sub class="lay-size">{{runner.place.size | number:0}}</sub>
-                        </div>
-                    </td>
-                    <td ng-repeat="processor in selectedBookie.processors track by $index"
-                        ng-show="processor.enabled"
-                        ng-class="{
-                            green: runner.result[processor.id].isProfit,
-                            yellow: runner.result[processor.id].isOk,
-                            lowsize: !runner.result[processor.id].enough,
-                            'out-of-range': runner.result[processor.id].outOfRange && runner.result[processor.id].enough
-                        }">
-                        {{runner.result[processor.id].profit | number:2}}
-                        <i class="fa fa-star" ng-show="runner.result[processor.id].isBest"></i>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="runner-options" ng-show="!!selectedRunner">
-            <label for="locked-back-odds">Locked back odds</label>
-            <input id="locked-back-odds" type="text" ng-model="selectedRunner.lockedBackOdds">
-            <button class="btn btn-sm" ng-click="lockRunnerPrice(selectedRunner, true)">Lock</button>
-            <button class="btn btn-sm" ng-click="toggleRunnerExcluded(selectedRunner)">On/Off</button>
-            <div class="lay-info">
-                <h3>
-                    {{selectedRunner.name}}
-                    <span class="back-odds">&pound;{{selectedBookie.backStake}}</span>
-                    <span class="subtle">@</span>
-                    <span class="lay-comm" ng-class="{smarkets: selectedBookie.layCommission == 2}"></span>
-                    <a ng-click="sendToCalc(selectedRunner)"><i class="fa fa-calculator"></i></a>
-                </h3>
-                <div class="processor-info"
-                ng-repeat="processor in selectedBookie.processors track by $index"
-                ng-show="processor.enabled"
-                ng-class="{green: selectedRunner.result[processor.id].isProfit, yellow: selectedRunner.result[processor.id].isOk, lowsize: !selectedRunner.result[processor.id].enough}">
-                    {{processor.name}}:
-                    lay <span class="badge lay-odds">{{selectedRunner.result[processor.id].layStake}}</span>
-                    @ {{selectedRunner.result[processor.id].layOdds}},
-                    liability <span class="badge liability">{{selectedRunner.result[processor.id].liability}}</span>
-                    for <span class="badge red" ng-class="{green: selectedRunner.result[processor.id].profit >= 0}">{{selectedRunner.result[processor.id].profit | number:2}}</span>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 </body>
