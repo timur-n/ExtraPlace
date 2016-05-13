@@ -1,22 +1,27 @@
 // This script gathers all data and matches back and lay data.
 // Page scripts (injected) send messages to this script with back data, listener here handles them.
-// Also this script polls betfair for all URLs specified in betfairData.
+// Also this script polls betfair for all URLs specified in betfairRequests.
 
 var dataCallback;
-var betfairData = {};
+var betfairRequests = {};
 var betfair = createBetfair();
+var matching = new Matching();
 
 function test() {
-	console.log('TEST', betfairData);
+	console.log('TEST', betfairRequests);
 }
 
 function register(callback) {
 	dataCallback = callback;
 }
 
-function setBetfairData(tabId, data) {
-	betfairData[tabId] = data;
-	console.log('setBetfairData():', tabId, data);
+function setBetfairRequest(tabId, data) {
+	betfairRequests[tabId] = data;
+	console.log('setBetfairRequest():', tabId, data);
+}
+
+function getBetfairRequest(tabId) {
+	return betfairRequests[tabId];
 }
 
 function updateBetfairData(data) {
@@ -30,9 +35,9 @@ setInterval(function() {
 
 	// todo-timur: this won't work, need to have a map tabId -> marketIds to later send notifications to these tabs
 
-	for (key in betfairData) {
-		if (betfairData.hasOwnProperty(key)) {
-			var data = betfairData[key];
+	for (key in betfairRequests) {
+		if (betfairRequests.hasOwnProperty(key)) {
+			var data = betfairRequests[key];
 			var marketId = betfairUrlToMarketId(data.win);
 			marketIds[marketId] = true;
 			marketId = betfairUrlToMarketId(data.place);
@@ -44,7 +49,7 @@ setInterval(function() {
 			marketIdsArr.push(key);
 		}
 	}
-	console.log('Betfair request', marketIdsArr);
+	//console.log('Betfair request', marketIdsArr);
 	marketIds = marketIdsArr.join(',');
 	if (marketIds) {
 		betfair.getMarketPrices(marketIds, function (data) {
@@ -54,14 +59,14 @@ setInterval(function() {
 }, 5000);
 
 
-//example of using a message handler from the inject scripts
+// Handle message from the inject scripts
 chrome.extension.onMessage.addListener(function (request, sender, sendResponse) {
 	chrome.pageAction.show(sender.tab.id);
 	console.log('Background: message received', sender.tab.id, request);
 	var data = {
 		id: sender.tab.id,
 		url: sender.tab.url,
-		betfair: betfairData[sender.tab.id],
+		betfair: betfairRequests[sender.tab.id],
 		data: request.data
 	};
 	if (dataCallback) {
@@ -74,8 +79,8 @@ chrome.extension.onMessage.addListener(function (request, sender, sendResponse) 
 });
 
 chrome.tabs.onRemoved.addListener(function callback(tabId) {
-	delete betfairData[tabId];
-	console.log('Tab closed, removed tab data', tabId, betfairData);
+	delete betfairRequests[tabId];
+	console.log('Tab closed, removed tab data', tabId, betfairRequests);
 });
 
 /*

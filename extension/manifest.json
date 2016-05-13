@@ -12,6 +12,7 @@
   "background": {
     "scripts": [
       "src/bg/betfair-api.js",
+      "src/bg/matching.js",
       "src/bg/background.js"
     ],
     "persistent": true
@@ -42,6 +43,7 @@
     "tabs",
     "tts",
     "storage",
+    "unlimitedStorage",
     "https://*.betfair.com/*"
   ]
 }
