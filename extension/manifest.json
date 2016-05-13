@@ -11,6 +11,7 @@
   "default_locale": "en",
   "background": {
     "scripts": [
+      "src/bg/betfair-api.js",
       "src/bg/background.js"
     ],
     "persistent": true

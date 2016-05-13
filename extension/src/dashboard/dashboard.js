@@ -1,3 +1,5 @@
+var betfairIds;
+
 function getScope() {
 	var div = document.getElementById('main-div');
 	if (div && angular) {

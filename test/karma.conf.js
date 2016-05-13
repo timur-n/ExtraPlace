@@ -10,7 +10,7 @@ module.exports = function(config) {
             'extension/src/dashboard/angular.js',
             'extension/src/dashboard/processors.js',
             'extension/src/dashboard/app2.js',
-            'extension/src/dashboard/betfair-api.js',
+            '../extension/src/bg/betfair-api.js',
             'test/angular-mocks.js',
             'extension/src/inject/oddschecker/horse.js',
             'extension/src/inject/inject-lib.js',

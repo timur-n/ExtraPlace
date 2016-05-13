@@ -14,6 +14,11 @@ function debugLog() {
 
 }
 
+function betfairUrlToMarketId(str) {
+    return str.replace(/([a-z./:#-]*market\/)([0-9.]*)([?a-z=0-9]*)/gmi, '$2').replace(/\n/gi, ',');
+}
+
+
 function param(object) {
     var encodedString = '';
     for (var prop in object) {
@@ -315,7 +320,7 @@ function createBetfair() {
             marketParams.filter = {
                 marketIds: params.marketIds.split(',')
             }
-        } else {
+        } else if (params.event) {
             var today = new Date(),
                 fromDate = new Date(today.getFullYear(), today.getMonth(), today.getDate()),
                 toDate = addDays(fromDate, 2);
@@ -362,7 +367,14 @@ function createBetfair() {
             done(result);
         }
 
-        betfair.call('listMarketCatalogue', marketParams, lmcDone);
+        if (marketParams && marketParams.filter &&
+            (marketParams.filter.marketIds && marketParams.filter.marketIds.length) ||
+            (marketParams.filter.textQuery))
+        {
+            betfair.call('listMarketCatalogue', marketParams, lmcDone);
+        } else {
+            done({error: 'Invalid query params'});
+        }
     };
 
     betfair.matchMarketsAndPrices = matchMarketsAndPrices;
