@@ -1,8 +1,12 @@
+.inner {
+    padding: 10px;
+}
 h1 {
     font-size: 2em;
     white-space: nowrap;
-    padding: 0;
-    margin-bottom: 10px;
+    padding: 10px;
+    margin: 0;
+    background-color: lightgray;
 }
 a {
     white-space: nowrap;
@@ -15,5 +19,5 @@ label {
     display: block;
 }
 input[type=text] {
-    width: 300px;
+    width: 500px;
 }
