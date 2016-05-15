@@ -4,8 +4,8 @@
     <link type="text/css" rel="stylesheet" href="../lib/bootstrap.css">
     <link type="text/css" rel="stylesheet" href="dashboard.css">
     <link type="text/css" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-    <script type="text/javascript" src="../inject/jquery-2.1.1.min.js"></script>
-    <script type="text/javascript" src="angular.js"></script>
+    <script type="text/javascript" src="../lib/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="../lib/angular.js"></script>
     <script type="text/javascript" src="../lib/bootstrap.min.js"></script>
     <script type="text/javascript" src="../bg/betfair-api.js"></script>
     <script type="text/javascript" src="dashboard.js"></script>
@@ -18,13 +18,13 @@
 <div id="main-div" ng-controller="MainCtrl">
     <div class="main-toolbar">
         <label for="lay-comm">Lay comm</label>
-        <input type="number" id="lay-comm" class="number-std" ng-model="extraPlaceEvent.layCommission">
+        <input type="number" id="lay-comm" class="number-std" ng-model="event.layCommission">
         <input type="checkbox" id="isLogOn" ng-model="isLogOn">
         <label for="isLogOn">Log</label>
     </div>
     <div class="extra-place-runners">
-        <span class="bold">{{extraPlaceEvent && extraPlaceEvent.name}}</span>
-        <span>Runners: {{extraPlaceEvent && extraPlaceEvent.runners.length}}</span>
+        <span class="bold">{{event.name}}</span>
+        <span>Runners: {{event.runners.length}}</span>
         <table class="runner-list">
             <tr>
                 <th rowspan="2">Name</th>
@@ -50,7 +50,7 @@
                 <th>Liab.</th>
                 <th>P/L</th>
             </tr>
-            <tr ng-repeat="runner in extraPlaceEvent.runners track by $index" ng-class="{subtle: runner.isBacked, selected: runner.isSelected}">
+            <tr ng-repeat="runner in runners track by $index" ng-class="{subtle: runner.isBacked, selected: runner.isSelected}">
                 <td class="event-name" ng-class="{selected: runner.selected}">
                     <a ng-click="runner.toggleRunner()">{{runner.name}}</a>
                 </td>
@@ -89,21 +89,21 @@
             </tr>
             <tr class="ew-terms">
                 <td>Each way terms</td>
-                <td ng-repeat="bookie in extraPlaceEvent.runners[0].bookies track by $index" class="ew-terms">
+                <td ng-repeat="bookie in event.runners[0].bookies track by $index" class="ew-terms">
                     <p class="ew-places">{{bookie.ew.places}}</p>
                     <p class="ew-fraction">1/{{bookie.ew.fraction}}</p>
                 </td>
                 <td colspan="3"></td>
                 <td></td>
-                <td>{{extraPlaceEvent.totals.win.liability | number:2}}</td>
-                <td>{{extraPlaceEvent.totals.win.profit | number:2}}</td>
+                <td>{{event.totals.win.liability | number:2}}</td>
+                <td>{{event.totals.win.profit | number:2}}</td>
                 <td colspan="2"></td>
                 <td></td>
-                <td>{{extraPlaceEvent.totals.place.liability | number:2}}</td>
-                <td>{{extraPlaceEvent.totals.place.profit | number:2}}</td>
-                <td>{{extraPlaceEvent.totals.liability | number:2}}</td>
-                <td class="profit" ng-class="{green: extraPlaceEvent.totals.isProfit, yellow: extraPlaceEvent.totals.isOk}">
-                    {{extraPlaceEvent.totals.profit | number:2}}
+                <td>{{event.totals.place.liability | number:2}}</td>
+                <td>{{event.totals.place.profit | number:2}}</td>
+                <td>{{event.totals.liability | number:2}}</td>
+                <td class="profit" ng-class="{green: event.totals.isProfit, yellow: event.totals.isOk}">
+                    {{event.totals.profit | number:2}}
                 </td>
             </tr>
         </table>

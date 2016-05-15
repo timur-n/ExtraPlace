@@ -7,7 +7,7 @@ module.exports = function(config) {
 
         // list of files / patterns to load in the browser
         files: [
-            'extension/src/dashboard/angular.js',
+            'extension/src/lib/angular.js',
             'extension/src/dashboard/processors.js',
             'extension/src/dashboard/app2.js',
             'extension/src/bg/betfair-api.js',
@@ -15,7 +15,7 @@ module.exports = function(config) {
             'test/angular-mocks.js',
             'extension/src/inject/oddschecker/horse.js',
             'extension/src/inject/inject-lib.js',
-            'extension/src/inject/jquery-2.1.1.min.js',
+            'extension/src/lib/jquery-2.1.1.min.js',
 
             'test/app-spec.js',
             'test/matching-spec.js'

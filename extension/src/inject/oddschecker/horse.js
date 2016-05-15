@@ -9,7 +9,8 @@ window.bb_getOddschekerHorse = function(result) {
     result = result || {};
 
     //result.bookies = result.bookies || {};
-    var bookies = [],
+    var bookies = {},
+        bookiesArray = [],
         bookieHash = {};
 
     var $ = jQuery,
@@ -29,9 +30,10 @@ window.bb_getOddschekerHorse = function(result) {
     $bookies.each(function() {
         var $bookie = $(this);
         var bookieName = $bookie.attr('title') || 'NOT FOUND';
-        var bookie = {name: bookieName};
-        bookies.push(bookie);
         var bookieId = $bookie.attr('data-bk');
+        var bookie = {id: bookieId, name: bookieName, runners: {}};
+        bookies[bookieName] = bookie;
+        bookiesArray.push(bookie);
         if (bookieId) {
             bookieHash[bookieId] = bookie;
         }
@@ -57,17 +59,15 @@ window.bb_getOddschekerHorse = function(result) {
         //result.debug.runners.push(runnerName);
         var $cells = $row.find('td[data-odig]');
         //result.debug.cells = result.debug.cells || $cells.length;
-        if (bookies.length === $cells.length) {
+        if (bookiesArray.length === $cells.length) {
             $cells.each(function(index) {
                 var $cell = $(this);
                 var price = $cell.text().trim();
                 //result.debug.bookies = result.debug.bookies || bookieName;
                 //result.debug.bookie = result.debug.bookie || bookie;
-                var bookie = bookies[index];
-                bookie.markets = bookie.markets || [{name: 'Win', runners: []}];
-                var market = bookie.markets[0];
+                var bookie = bookiesArray[index];
                 if (runnerName) {
-                    market.runners.push({name: runnerName, price: price});
+                    bookie.runners[runnerName] = {name: runnerName, price: price};
                 }
             });
         } else if (runnerName) {

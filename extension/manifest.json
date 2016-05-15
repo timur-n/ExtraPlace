@@ -31,14 +31,14 @@
       "js": [
         "src/inject/inject.js",
         "src/inject/inject-lib.js",
-        "src/inject/jquery-2.1.1.min.js",
+        "src/lib/jquery-2.1.1.min.js",
         "src/inject/oddschecker/horse.js"
       ]
     }
   ],
-  "externally_connectable": {
-    "matches": ["*://localhost/*"]
-  },
+//  "externally_connectable": {
+//    "matches": ["*://localhost/*"]
+//  },
   "permissions": [
     "tabs",
     "tts",
