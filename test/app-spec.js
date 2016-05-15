@@ -51,7 +51,7 @@ describe('Main app', function() {
             }
         }
 
-        it('should create simple test data', function() {
+        xit('should create simple test data', function() {
             var data = simpleData();
             expect(data.bookies).toBeDefined();
             expect(data.bookies.length).toBe(1);
@@ -63,7 +63,7 @@ describe('Main app', function() {
             expect(bookie.ew.places).toBe(3);
         });
 
-        it('should update Bookie data in existing event', function() {
+        xit('should update Bookie data in existing event', function() {
             // Initial state
             $scope.knownBookies = [{name: 'B1'}, {name: 'Sky Bet'}, {name: 'B3'}];
             $scope.updateData({
