@@ -97,10 +97,11 @@ function Matching() {
 
 Matching.prototype.updateEventData = function(tabId, data) {
     console.log('Matching.updateEventData', tabId, data);
-    var event = this.events[tabId];
+    var id = '' + tabId;
+    var event = this.events[id];
     if (!event) {
-        event = new BettingEvent(tabId);
-        this.events[tabId] = event;
+        event = new BettingEvent(id);
+        this.events[id] = event;
     }
     event.updateData(data);
 };

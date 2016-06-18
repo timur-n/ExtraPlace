@@ -9,6 +9,7 @@
     <script type="text/javascript" src="../lib/bootstrap.min.js"></script>
     <script type="text/javascript" src="../bg/betfair-api.js"></script>
     <script type="text/javascript" src="dashboard.js"></script>
+    <script type="text/javascript" src="backend.js"></script>
     <script type="text/javascript" src="processors.js"></script>
     <script type="text/javascript" src="storage.js"></script>
     <script type="text/javascript" src="utils.js"></script>
@@ -21,10 +22,12 @@
         <input type="number" id="lay-comm" class="number-std" ng-model="event.layCommission">
         <input type="checkbox" id="isLogOn" ng-model="isLogOn">
         <label for="isLogOn">Log</label>
+        <span>Events: {{events.length}}</span>
+        <span>Last update: {{lastUpdated}}</span>
     </div>
     <div class="extra-place-runners">
         <span class="bold">{{event.name}}</span>
-        <span>Runners: {{event.runners.length}}</span>
+        <span>Runners: {{events.length}}</span>
         <table class="runner-list">
             <tr>
                 <th rowspan="2">Name</th>

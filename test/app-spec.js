@@ -4,52 +4,76 @@ angular.module('mocks', [])
             set: function() {},
             get: function() {}
         };
+    })
+    .factory('bbBackend', function() {
+        var callbackFn;
+        return {
+            connect: function(callback) {
+                callbackFn = callback;
+            },
+            fire: function(data) {
+                callbackFn(data);
+            }
+        };
     });
 
 describe('Main app', function() {
 
     describe('Controller', function() {
-        var $scope, ctrl;
+        var $scope, ctrl, backend;
 
-        beforeEach(module('BBApp'));
+        beforeEach(module('ExtraPlaceApp'));
         beforeEach(module('mocks'));
-        beforeEach(inject(function($controller, $rootScope, _$log_, _$interval_, _bbStorage_, _bbUtils_) { // inject mocked service
+        beforeEach(inject(function($controller, $rootScope, _$log_, _$interval_, _bbStorage_, _bbUtils_, _bbBackend_) { // inject mocked service
             $scope = $rootScope.$new();
             ctrl = $controller('MainCtrl', {
                 $scope: $scope,
                 $log: _$log_,
                 $interval: _$interval_,
                 bbStorage: _bbStorage_,
-                bbUtils: _bbUtils_
+                bbUtils: _bbUtils_,
+                bbBackend: _bbBackend_
             });
+            backend = _bbBackend_;
         }));
 
         function simpleData(time) {
             return {
-                event: {
-                    name: 'Test Event',
-                    time: time || '10:00'
-                },
-                bookies: [
-                    {
-                        name: 'Sky Bet', // name must be in the knownBookies list, otherwise it'll be filtered out
-                        ew: {
-                            fraction: 5,
-                            places: 3
+                events: {
+                    'tab1': {
+                        event: {
+                            name: 'Test Event',
+                            time: time || '10:00'
                         },
-                        markets: [
+                        bookies: [
                             {
-                                name: 'market 1',
-                                runners: [
-                                    {name: 'runner 1', price: '10'},
-                                    {name: 'runner 2', price: '20'}
+                                name: 'Sky Bet', // name must be in the knownBookies list, otherwise it'll be filtered out
+                                ew: {
+                                    fraction: 5,
+                                    places: 3
+                                },
+                                markets: [
+                                    {
+                                        name: 'market 1',
+                                        runners: [
+                                            {name: 'runner 1', price: '10'},
+                                            {name: 'runner 2', price: '20'}
+                                        ]
+                                    }
                                 ]
                             }
                         ]
                     }
-                ]
+                }
             }
         }
+
+        it('should update events', function() {
+            expect($scope.events.length).toBe(0);
+            var data = simpleData();
+            backend.fire(data);
+            expect($scope.events.length).toBe(1);
+        });
 
         xit('should create simple test data', function() {
             var data = simpleData();

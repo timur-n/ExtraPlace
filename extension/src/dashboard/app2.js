@@ -16,10 +16,18 @@ function ExtraPlaceEvent() {
     this.layCommission = 5;
 }
 
-angular.module('ExtraPlaceApp', ['BBStorage', 'BBUtils', 'BBProcessors'])
-    .controller('MainCtrl', ['$scope', '$log', '$interval', 'bbStorage', 'bbUtils', 'bbProcessors', '$http',
-        function($scope, $log, $interval, bbStorage, bbUtils, bbProcessors, $http) {
-            $scope.data = 0;
+angular.module('ExtraPlaceApp', ['BBStorage', 'BBUtils', 'BBProcessors', 'BBBackend'])
+    .controller('MainCtrl', ['$scope', '$log', '$interval', 'bbStorage', 'bbUtils', 'bbProcessors', '$http', 'bbBackend',
+        function($scope, $log, $interval, bbStorage, bbUtils, bbProcessors, $http, bbBackend) {
+            $scope.isLogOn = false;
+            $scope.lastUpdated = 'Never updated';
+            // All watching events
+            $scope.events = [];
+            // Best opportunities
+            $scope.topRunners = [];
+            // Selected event
+            $scope.selectedEvent = new ExtraPlaceEvent();
+
             $scope.knownBookies = [
                 {name: 'Bet 365', short: 'B365'},
                 {name: 'Sky Bet', short: 'Sky'},
@@ -33,5 +41,18 @@ angular.module('ExtraPlaceApp', ['BBStorage', 'BBUtils', 'BBProcessors'])
                 {name: 'Winner', short: 'Winner'},
                 {name: 'William Hill', short: 'WH'}
             ];
-            $scope.event = new ExtraPlaceEvent();
+
+            bbBackend.connect(function(data) {
+                $scope.lastUpdated = new Date();
+                var key;
+                $scope.events = [];
+                for (key in data.events) {
+                    if (data.events.hasOwnProperty(key)) {
+                        $scope.events.push(data.events[key]);
+                    }
+                }
+                $log.debug('Data callback: ', $scope.events.length, data);
+                $scope.$apply();
+            });
+
         }]);

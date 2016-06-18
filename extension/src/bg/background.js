@@ -11,13 +11,27 @@ function test() {
 	console.log('TEST', betfairRequests);
 }
 
-function register(callback) {
+function registerCallback(callback) {
+	if (dataCallback) {
+		console.log('Backend: callback already registered, rewriting');
+	}
 	dataCallback = callback;
+	console.log('Backend: callback registered successfully');
+}
+
+function doCallback() {
+	if (dataCallback) {
+		try {
+			dataCallback(matching);
+		} catch(e) {
+			console.log('Backend: Callback error ', e)
+		}
+	}
 }
 
 function setBetfairRequest(tabId, data) {
 	betfairRequests[tabId] = data;
-	console.log('setBetfairRequest():', tabId, data);
+	console.log('Backend: setBetfairRequest():', tabId, data);
 }
 
 function getBetfairRequest(tabId) {
@@ -26,7 +40,8 @@ function getBetfairRequest(tabId) {
 
 function updateBetfairData(data) {
 	// todo-timur: update betfair data and notify open tabs
-	console.log('updateBetfairData():', data);
+	console.log('Backend: updateBetfairData():', data);
+	doCallback();
 }
 
 // Poll betfair data for events
@@ -69,12 +84,8 @@ chrome.extension.onMessage.addListener(function (request, sender, sendResponse) 
 		betfair: betfairRequests[sender.tab.id],
 		data: request.data
 	};
-	if (dataCallback) {
-		try {
-			dataCallback(data);
-		} catch(e) {
-		}
-	}
+	matching.updateEventData(sender.tab.id, data);
+	doCallback();
 	sendResponse();
 });
 
