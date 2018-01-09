@@ -26,13 +26,13 @@ module.exports = function(config) {
 
         // list of files to exclude
         exclude: [
-            'src/dashboard/dashboard.js'
+            'extension/src/dashboard/dashboard.js'
         ],
 
         // use dots reporter, as travis terminal does not support escaping sequences
         // possible values: 'dots', 'progress'
         // CLI --reporters progress
-        reporters: ['progress', 'junit'],
+        reporters: ['progress'],
 
         junitReporter: {
             // will be resolved to basePath (in the same way as files/exclude patterns)
@@ -82,9 +82,9 @@ module.exports = function(config) {
         plugins: [
             'karma-jasmine',
             'karma-chrome-launcher',
-            'karma-firefox-launcher',
-            'karma-junit-reporter',
-            'karma-commonjs'
+            // 'karma-firefox-launcher',
+            // 'karma-junit-reporter',
+            // 'karma-commonjs'
         ]
     });
 };

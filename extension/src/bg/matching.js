@@ -17,6 +17,12 @@ data = {
 *
 * */
 
+
+/**
+ * Normalises price in Fractional or Decimal format to a decimal number with.
+ * @param  {string|float} price Price from bookie, can be in Fractional or Decimal form
+ * @return {float} Normalised price, float with 2 decimal places
+ */
 function normalizePrice(price) {
     var parts = ('' + price).split('/');
     var newPrice;
@@ -29,12 +35,26 @@ function normalizePrice(price) {
 }
 
 
+
+/**
+ * Object describing an event like football match or horse race.
+ * @constructor
+ * @property {Object} event Event description
+ * @property {Object} bookies Bookies price data
+ * @param  {string} id Event unique id
+ * @return {type}
+ */
 function BettingEvent(id) {
     this.id = id;
     this.event = {};
     this.bookies = {};
 }
 
+
+/**
+ * Update bookies price data with data received from scrapers
+ * @param {Object} data New bookies price data
+ */
 BettingEvent.prototype.updateData = function(data) {
     if (data.bookies) {
         var bookieKey;
@@ -96,7 +116,7 @@ function Matching() {
 }
 
 Matching.prototype.updateEventData = function(tabId, data) {
-    console.log('Matching.updateEventData', tabId, data);
+    // console.log('Matching.updateEventData', tabId, data);
     var id = '' + tabId;
     var event = this.events[id];
     if (!event) {
